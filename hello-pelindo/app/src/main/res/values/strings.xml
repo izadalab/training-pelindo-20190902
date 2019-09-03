@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Hello Pelindo Java</string>
+    <string name="register">Register</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="box_one">BOX ONE</string>
+    <string name="box_two">BOX TWO</string>
+    <string name="box_three">BOX THREE</string>
+    <string name="box_four">BOX FOUR</string>
+    <string name="box_five">BOX FIVE</string>
+    <string name="how_to_play">How To Play</string>
+    <string name="hint">Tap the screen and button</string>
+</resources>

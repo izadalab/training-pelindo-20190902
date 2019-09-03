@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hello Pelindo Java</string>
+    <string name="register">Daftar</string>
+    <string name="name">Nama</string>
+    <string name="email">Surel</string>
+    <string name="box_one">BOX ONE</string>
+    <string name="box_two">BOX TWO</string>
+    <string name="box_three">BOX THREE</string>
+    <string name="box_four">BOX FOUR</string>
+    <string name="box_five">BOX FIVE</string>
+    <string name="how_to_play">How To Play</string>
+    <string name="hint">Tap the screen and button</string>
+</resources>
