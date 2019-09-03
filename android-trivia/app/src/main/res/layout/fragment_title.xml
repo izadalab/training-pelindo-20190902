@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="id.co.inaportempat.android_trivia.TitleFragment">
+    tools:context="id.co.inaportempat.android_trivia.fragments.TitleFragment">
 
 
     <ImageView
