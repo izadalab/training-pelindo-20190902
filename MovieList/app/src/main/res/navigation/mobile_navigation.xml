@@ -15,7 +15,7 @@
         android:id="@+id/popularFragment"
         android:name="id.co.inaportempat.movielist.ui.popular.PopularMoviesFragment"
         android:label="@string/title_popular"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_popular_movies" />
 
     <fragment
         android:id="@+id/navigation_notifications"
