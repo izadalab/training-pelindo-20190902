@@ -35,7 +35,7 @@ class MovieRvAdapter(
 
         fun bindView(movie: Movie) {
             itemView.apply {
-                imagePoster.setBackgroundResource(movie.image)
+//                imagePoster.setBackgroundResource(movie.image)
                 textTitle.text = movie.title
             }
         }
