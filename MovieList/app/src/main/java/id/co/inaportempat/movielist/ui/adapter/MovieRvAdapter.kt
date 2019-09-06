@@ -8,7 +8,7 @@ import id.co.inaportempat.movielist.R
 import id.co.inaportempat.movielist.model.Movie
 import kotlinx.android.synthetic.main.list_movie_item.view.*
 
-class MovieRvAdapter (
+class MovieRvAdapter(
     private val movies: List<Movie>
 ) : RecyclerView.Adapter<MovieRvAdapter.MovieViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -31,7 +31,7 @@ class MovieRvAdapter (
 
     // cara 1
     inner class MovieViewHolder(itemView: View) :
-            RecyclerView.ViewHolder(itemView) {
+        RecyclerView.ViewHolder(itemView) {
 
         fun bindView(movie: Movie) {
             itemView.apply {

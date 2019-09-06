@@ -1,8 +1,20 @@
 package id.co.inaportempat.android_trivia.model
 
+import id.co.inaportempat.android_trivia.R
+
 data class Question(
         val text : String,
         val answers: List<String>
+)
+
+data class Movie(val title:String, val image: Int)
+
+val movie = Movie("Gundala", R.drawable.ic_launcher_background)
+
+fun movieList() : List<Movie> = listOf(
+        Movie( "Gundala", R.drawable.ic_launcher_background),
+        Movie(title = "Avatar", image = R.drawable.ic_launcher_background),
+        Movie(title = "", image = R.drawable.ic_launcher_background)
 )
 
 object CreateQuestion {
@@ -28,6 +40,7 @@ object CreateQuestion {
             Question(text = "What do you use to mark a layout for data binding?",
                     answers = listOf("<layout>", "<binding>", "<data-binding>", "<dbinding>"))
     )
+
 }
 
 

@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import id.co.inaportempat.movielist.R
 import id.co.inaportempat.movielist.model.Movie
 import id.co.inaportempat.movielist.ui.adapter.MovieRvAdapter
@@ -34,8 +33,8 @@ class PopularMoviesFragment : Fragment() {
         movieList = generateMovies()
         movieRvAdapter = MovieRvAdapter(movieList)
         rvMovies.apply {
-//            layoutManager = LinearLayoutManager(requireActivity())
-            layoutManager = GridLayoutManager(requireActivity(), 2)
+            //layoutManager = LinearLayoutManager(requireActivity())
+            layoutManager = GridLayoutManager(requireActivity(),2 )
             setHasFixedSize(true)
             adapter = movieRvAdapter
         }
