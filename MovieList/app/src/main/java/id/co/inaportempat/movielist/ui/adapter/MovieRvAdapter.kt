@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import id.co.inaportempat.movielist.R
 import id.co.inaportempat.movielist.model.Movie
 import kotlinx.android.synthetic.main.list_movie_item.view.*
@@ -29,14 +31,23 @@ class MovieRvAdapter(
 
     }
 
+    companion object {
+        const val POSTER_URL = "https://image.tmdb.org/t/p/w185/"
+    }
+
     // cara 1
     inner class MovieViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
         fun bindView(movie: Movie) {
             itemView.apply {
-//                imagePoster.setBackgroundResource(movie.image)
                 textTitle.text = movie.title
+                Glide
+                    .with(context).asDrawable()
+                    .load(POSTER_URL + movie.posterPath)
+                    .fitCenter()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(imagePoster)
             }
         }
     }
