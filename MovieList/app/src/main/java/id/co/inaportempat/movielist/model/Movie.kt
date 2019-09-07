@@ -1,6 +1,8 @@
 package id.co.inaportempat.movielist.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 
 data class MovieResponse(
@@ -23,6 +25,7 @@ data class Dates(
     val minimum: String
 )
 
+@Parcelize
 data class Movie(
     @SerializedName("adult")
     val adult: Boolean,
@@ -52,4 +55,4 @@ data class Movie(
     val voteAverage: Double,
     @SerializedName("vote_count")
     val voteCount: Int
-)
+) : Parcelable
