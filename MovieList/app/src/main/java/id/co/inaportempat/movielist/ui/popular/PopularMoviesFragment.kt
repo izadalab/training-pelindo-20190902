@@ -50,12 +50,14 @@ class PopularMoviesFragment : Fragment() {
     }
 
     private fun fetchPopularMovies() {
+        loadingBar.visibility = View.VISIBLE
         val service = makeService()
         service.getPopularMovies("678ef42a1b584848591cbd02ac3899c3").enqueue(object : Callback<MovieResponse> {
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
                 Log.e(
                     "Error Message", t.localizedMessage
                 )
+                loadingBar.visibility = View.GONE
             }
 
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
@@ -69,6 +71,7 @@ class PopularMoviesFragment : Fragment() {
                 } else {
                     Log.e("movies", "get response failed")
                 }
+                loadingBar.visibility = View.GONE
             }
         })
     }
