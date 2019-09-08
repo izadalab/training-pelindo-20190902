@@ -21,7 +21,7 @@ interface MovieApiEndpoint {
 
     @GET("movie/{movie_id}/videos")
     fun getTrailersByMovieId(
-        @Query("api_key") apiKey: String,
-        @Path("movie_id") movieId: Int
+        @Path("movie_id") movieId: Int,
+        @Query("api_key") apiKey: String
     ): Call<TrailerResponse>
 }
