@@ -3,19 +3,26 @@ package id.co.inaportempat.movielist.ui.detail
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.co.inaportempat.movielist.Constants.BACKDROP_URL
 import id.co.inaportempat.movielist.Constants.POSTER_URL
 import id.co.inaportempat.movielist.R
 import id.co.inaportempat.movielist.data.remote.MovieService.makeService
 import id.co.inaportempat.movielist.model.Movie
+import id.co.inaportempat.movielist.model.Trailer
 import id.co.inaportempat.movielist.model.TrailerResponse
+import id.co.inaportempat.movielist.ui.adapter.TrailerRvAdapter
 import kotlinx.android.synthetic.main.activity_detail_movie.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class DetailMovieActivity : AppCompatActivity() {
+
+    private lateinit var trailerAdapter: TrailerRvAdapter
+    private lateinit var trailerList: MutableList<Trailer>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +52,19 @@ class DetailMovieActivity : AppCompatActivity() {
             .load("$BACKDROP_URL${movie.backdropPath}")
             .into(imageBackdrop)
 
+        initView()
         fetchTrailers(movie.id)
+    }
+
+    private fun initView() {
+        trailerList = mutableListOf()
+        trailerAdapter = TrailerRvAdapter(trailerList)
+        rvTrailers.apply {
+            layoutManager = LinearLayoutManager(this@DetailMovieActivity,
+                LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+            adapter = trailerAdapter
+        }
     }
 
     private fun fetchTrailers(movieId: Int) {
@@ -63,6 +82,8 @@ class DetailMovieActivity : AppCompatActivity() {
                     val trailerResponse = response.body()
                     trailerResponse?.results?.map {
                         Log.i("trailer", it.key)
+                        trailerList.add(it)
+                        trailerAdapter.notifyDataSetChanged()
                     }
                 }
             }
