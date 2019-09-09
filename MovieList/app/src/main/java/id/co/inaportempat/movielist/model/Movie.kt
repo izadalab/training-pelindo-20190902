@@ -1,6 +1,8 @@
 package id.co.inaportempat.movielist.model
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -26,6 +28,7 @@ data class Dates(
 )
 
 @Parcelize
+@Entity(tableName = "movies")
 data class Movie(
     @SerializedName("adult")
     val adult: Boolean,
@@ -34,6 +37,7 @@ data class Movie(
     @SerializedName("genre_ids")
     val genreIds: List<Int>,
     @SerializedName("id")
+    @PrimaryKey
     val id: Int,
     @SerializedName("original_language")
     val originalLanguage: String,
