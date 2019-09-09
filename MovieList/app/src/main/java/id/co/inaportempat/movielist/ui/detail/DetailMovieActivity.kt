@@ -63,14 +63,16 @@ class DetailMovieActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.favoriteButton -> {
-                when(isFavorite) {
+                when (isFavorite) {
                     true -> {
                         removeFromFavorite(movie.id)
                         item.setIcon(R.drawable.ic_favorite_border_black_24dp)
+                        isFavorite = false
                     }
                     false -> {
                         addToFavorite(movie)
                         item.setIcon(R.drawable.ic_favorite_black_24dp)
+                        isFavorite = true
                     }
                 }
             }
@@ -118,7 +120,7 @@ class DetailMovieActivity : AppCompatActivity() {
         try {
             movieDao.insertMovie(movie)
             Toast.makeText(this, "Add Movie to Favorite", Toast.LENGTH_SHORT).show()
-        } catch (e : Exception){
+        } catch (e: Exception) {
             Log.e("insert Error:", e.localizedMessage!!)
         }
     }
@@ -127,20 +129,18 @@ class DetailMovieActivity : AppCompatActivity() {
         try {
             movieDao.deleteMovieById(movieId)
             Toast.makeText(this, "Remove Movie from Favorite", Toast.LENGTH_SHORT).show()
-        } catch (e : Exception){
+        } catch (e: Exception) {
             Log.e("delete Error:", e.localizedMessage!!)
         }
     }
 
     private fun isMovieFavorite(movieId: Int): Boolean {
-        var isFavorite = false
         val result = movieDao.findMovieById(movieId)
 
         Log.d("result", result.toString())
 
-        if(result == movie.id) {
-            isFavorite = true
-        }
+        if (result == movie.id) isFavorite = true
+
         return isFavorite
     }
 
