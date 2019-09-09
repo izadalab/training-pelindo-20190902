@@ -2,13 +2,17 @@ package id.co.inaportempat.movielist.ui.detail
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.co.inaportempat.movielist.Constants.BACKDROP_URL
 import id.co.inaportempat.movielist.Constants.POSTER_URL
 import id.co.inaportempat.movielist.R
+import id.co.inaportempat.movielist.data.local.MovieDao
+import id.co.inaportempat.movielist.data.local.MovieDatabase
 import id.co.inaportempat.movielist.data.remote.MovieService.makeService
 import id.co.inaportempat.movielist.model.Movie
 import id.co.inaportempat.movielist.model.Trailer
@@ -23,6 +27,10 @@ class DetailMovieActivity : AppCompatActivity() {
 
     private lateinit var trailerAdapter: TrailerRvAdapter
     private lateinit var trailerList: MutableList<Trailer>
+    private lateinit var movieDatabase: MovieDatabase
+    private lateinit var movieDao: MovieDao
+    private lateinit var movie: Movie
+    private var isFavorite: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,9 +40,43 @@ class DetailMovieActivity : AppCompatActivity() {
 //        val releaseDate = intent.getStringExtra("releaseDate")
 //        val popularity = intent.getDoubleExtra("popularity", 0.0)
 
-        val movie = intent.getParcelableExtra<Movie>("movieIntent")
+        movie = intent.getParcelableExtra("movieIntent")!!
         showDetailMovie(movie)
-        supportActionBar?.title = movie?.title
+        supportActionBar?.title = movie.title
+
+        isFavorite = isMovieFavorite(movie.id)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.favorite_menu, menu)
+        if (isFavorite) {
+            menu?.findItem(R.id.favoriteButton)?.icon = resources
+                .getDrawable(R.drawable.ic_favorite_black_24dp)
+        } else {
+            menu?.findItem(R.id.favoriteButton)?.icon = resources
+                .getDrawable(R.drawable.ic_favorite_border_black_24dp)
+        }
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.favoriteButton -> {
+                when(isFavorite) {
+                    true -> {
+                        removeFromFavorite(movie.id)
+                        item.setIcon(R.drawable.ic_favorite_border_black_24dp)
+                    }
+                    false -> {
+                        addToFavorite(movie)
+                        item.setIcon(R.drawable.ic_favorite_black_24dp)
+                    }
+                }
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun showDetailMovie(movie: Movie) {
@@ -57,14 +99,49 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+        movieDatabase = MovieDatabase.getInstance(this)
+        movieDao = movieDatabase.movieDao()
+
         trailerList = mutableListOf()
         trailerAdapter = TrailerRvAdapter(trailerList)
         rvTrailers.apply {
-            layoutManager = LinearLayoutManager(this@DetailMovieActivity,
-                LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = LinearLayoutManager(
+                this@DetailMovieActivity,
+                LinearLayoutManager.HORIZONTAL, false
+            )
             setHasFixedSize(true)
             adapter = trailerAdapter
         }
+    }
+
+    private fun addToFavorite(movie: Movie) {
+        try {
+            movieDao.insertMovie(movie)
+            Toast.makeText(this, "Add Movie to Favorite", Toast.LENGTH_SHORT).show()
+        } catch (e : Exception){
+            Log.e("insert Error:", e.localizedMessage!!)
+        }
+    }
+
+    private fun removeFromFavorite(movieId: Int) {
+        try {
+            movieDao.deleteMovieById(movieId)
+            Toast.makeText(this, "Remove Movie from Favorite", Toast.LENGTH_SHORT).show()
+        } catch (e : Exception){
+            Log.e("delete Error:", e.localizedMessage!!)
+        }
+    }
+
+    private fun isMovieFavorite(movieId: Int): Boolean {
+        var isFavorite = false
+        val result = movieDao.findMovieById(movieId)
+
+        Log.d("result", result.toString())
+
+        if(result == movie.id) {
+            isFavorite = true
+        }
+        return isFavorite
     }
 
     private fun fetchTrailers(movieId: Int) {
