@@ -1,5 +1,7 @@
 package id.co.inaportempat.movielist.ui.adapter
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +19,8 @@ class TrailerRvAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
     ): TrailerViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_trailer_item, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.list_trailer_item, parent, false)
         return TrailerViewHolder(view)
     }
 
@@ -35,6 +38,15 @@ class TrailerRvAdapter(
                 Glide.with(context).asBitmap()
                     .load("https://i1.ytimg.com/vi/" + trailer.key + "/0.jpg")
                     .into(imageThumbnail)
+
+                setOnClickListener {
+                    val intent = Intent(
+                        Intent.ACTION_VIEW, Uri.parse(
+                            "http://www.youtube.com/watch?v=${trailer.key}"
+                        )
+                    )
+                    context.startActivity(intent)
+                }
             }
         }
 
