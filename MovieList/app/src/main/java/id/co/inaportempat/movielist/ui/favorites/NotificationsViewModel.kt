@@ -1,4 +1,4 @@
-package id.co.inaportempat.movielist.ui.notifications
+package id.co.inaportempat.movielist.ui.favorites
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

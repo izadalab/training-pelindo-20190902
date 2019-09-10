@@ -18,8 +18,8 @@
         tools:layout="@layout/fragment_popular_movies" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="id.co.inaportempat.movielist.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:id="@+id/fragmentFavorites"
+        android:name="id.co.inaportempat.movielist.ui.favorites.FavoritesFragment"
+        android:label="@string/title_favorites"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

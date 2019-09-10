@@ -52,27 +52,38 @@ class PopularMoviesFragment : Fragment() {
     private fun fetchPopularMovies() {
         loadingBar.visibility = View.VISIBLE
         val service = makeService()
-        service.getPopularMovies("678ef42a1b584848591cbd02ac3899c3").enqueue(object : Callback<MovieResponse> {
-            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                Log.e(
-                    "Error Message", t.localizedMessage
-                )
-                loadingBar.visibility = View.GONE
-            }
-
-            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
-                if (response.isSuccessful) {
-                    val movieResponse = response.body()
-                    movieResponse?.results?.map { movie ->
-                        movieList.add(movie)
-                        movieRvAdapter.notifyDataSetChanged()
-                        Log.d("movies", movie.title)
-                    }
-                } else {
-                    Log.e("movies", "get response failed")
+        service.getPopularMovies("678ef42a1b584848591cbd02ac3899c3")
+            .enqueue(object : Callback<MovieResponse> {
+                override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+                    Log.e(
+                        "Error Message", t.localizedMessage
+                    )
+                    loadingBar.visibility = View.GONE
                 }
-                loadingBar.visibility = View.GONE
-            }
-        })
+
+                override fun onResponse(
+                    call: Call<MovieResponse>,
+                    response: Response<MovieResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val movieResponse = response.body()
+                        movieResponse?.results?.map { movie ->
+                            movieList.add(movie)
+                            movieRvAdapter.notifyDataSetChanged()
+                            Log.d("movies", movie.title)
+                        }
+
+                    } else {
+                        Log.e("movies", "get response failed")
+                    }
+                    try {
+                        loadingBar.visibility = View.GONE
+                    } catch (e: IllegalStateException) {
+                        e.printStackTrace()
+                        Log.e("state", e.localizedMessage!!)
+                    }
+
+                }
+            })
     }
 }
