@@ -17,6 +17,7 @@ class MovieViewModel(private val api: MovieApiEndpoint) : ViewModel() {
 
     fun fetchPopularMovies() {
         isLoading.postValue(true)
+
         api.getPopularMovies("678ef42a1b584848591cbd02ac3899c3")
             .enqueue(object : Callback<MovieResponse> {
                 override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
