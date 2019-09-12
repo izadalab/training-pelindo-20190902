@@ -28,7 +28,6 @@ import retrofit2.Response
 class DetailMovieActivity : AppCompatActivity() {
 
     private lateinit var trailerAdapter: TrailerRvAdapter
-//    private lateinit var trailerList: MutableList<Trailer>
     private lateinit var movie: Movie
 
     private lateinit var detailViewModel: DetailMovieViewModel
@@ -100,8 +99,6 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-//        trailerList = mutableListOf()
-
         rvTrailers.apply {
             layoutManager = LinearLayoutManager(
                 this@DetailMovieActivity,

@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import id.co.inaportempat.movielist.data.local.MovieDatabase
 import id.co.inaportempat.movielist.data.remote.MovieApiEndpoint
-import id.co.inaportempat.movielist.data.remote.MovieService
 import id.co.inaportempat.movielist.model.Movie
 import id.co.inaportempat.movielist.model.Trailer
 import id.co.inaportempat.movielist.model.TrailerResponse
@@ -65,7 +64,7 @@ class DetailMovieViewModel(
         }
     }
 
-     fun fetchTrailers(movieId: Int) {
+    fun fetchTrailers(movieId: Int) {
         service.getTrailersByMovieId(movieId, "678ef42a1b584848591cbd02ac3899c3").enqueue(object :
             Callback<TrailerResponse> {
             override fun onFailure(call: Call<TrailerResponse>, t: Throwable) {
