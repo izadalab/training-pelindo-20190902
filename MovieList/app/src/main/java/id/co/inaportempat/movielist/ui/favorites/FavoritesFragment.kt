@@ -9,7 +9,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import id.co.inaportempat.movielist.R
-import id.co.inaportempat.movielist.data.local.MovieDatabase.Companion.getInstance
+import id.co.inaportempat.movielist.data.local.MovieDatabase
+import id.co.inaportempat.movielist.data.remote.MovieService.makeService
+import id.co.inaportempat.movielist.data.repository.MovieRepository
 import id.co.inaportempat.movielist.ui.adapter.MovieRvAdapter
 import kotlinx.android.synthetic.main.fragment_popular_movies.*
 
@@ -32,15 +34,17 @@ class FavoritesFragment : Fragment() {
         super.onResume()
         initView()
         showFavorites()
-        favoritesViewModel.getFavoriteMovies()
     }
 
     private fun initView() {
+        val movieRepository = MovieRepository(
+            makeService(),
+            MovieDatabase.getInstance(requireActivity())
+        )
         favoritesViewModel = ViewModelProviders.of(
-            requireActivity(), FavoriteViewModelFactory(
-                getInstance(requireContext())
-            )
+            requireActivity(), FavoriteViewModelFactory(movieRepository)
         ).get(FavoritesViewModel::class.java)
+
         rvMovies.apply {
             layoutManager = GridLayoutManager(requireActivity(), 2)
             setHasFixedSize(true)
@@ -50,7 +54,7 @@ class FavoritesFragment : Fragment() {
 
 
     private fun showFavorites() {
-        favoritesViewModel.moviesLiveData.observe(this, Observer {
+        favoritesViewModel.getFavoriteMovies().observe(this, Observer {
             movieRvAdapter = MovieRvAdapter(it)
             rvMovies.adapter = movieRvAdapter
 

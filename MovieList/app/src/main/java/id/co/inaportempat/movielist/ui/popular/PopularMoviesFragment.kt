@@ -10,9 +10,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import id.co.inaportempat.movielist.R
 import id.co.inaportempat.movielist.data.remote.MovieService.makeService
+import id.co.inaportempat.movielist.data.repository.MovieRepository
 import id.co.inaportempat.movielist.model.Movie
 import id.co.inaportempat.movielist.ui.adapter.MovieRvAdapter
 import kotlinx.android.synthetic.main.fragment_popular_movies.*
+import id.co.inaportempat.movielist.data.local.MovieDatabase
 
 
 class PopularMoviesFragment : Fragment() {
@@ -32,14 +34,14 @@ class PopularMoviesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        movieViewModel.fetchPopularMovies()
-        showMovies()
         showLoading()
+        showMovies()
     }
 
     private fun initView() {
+        val movieRepository = MovieRepository(makeService(), MovieDatabase.getInstance(requireActivity()))
         movieViewModel =
-            ViewModelProviders.of(requireActivity(), MovieViewModelFactory(makeService()))
+            ViewModelProviders.of(requireActivity(), MovieViewModelFactory(movieRepository))
                 .get(MovieViewModel::class.java)
         movieList = mutableListOf()
         movieRvAdapter = MovieRvAdapter(movieList)
@@ -52,12 +54,12 @@ class PopularMoviesFragment : Fragment() {
     }
 
     private fun showMovies() {
-        movieViewModel.moviesLiveData.observe(
+        movieViewModel.getPopularMovies().observe(
             this, Observer {
-                it.map { movie ->
-                    movieList.add(movie)
-                    movieRvAdapter.notifyDataSetChanged()
-                }
+               it.map {
+                   movieList.add(it)
+                   movieRvAdapter.notifyDataSetChanged()
+               }
             }
         )
     }
