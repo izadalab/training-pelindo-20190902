@@ -23,6 +23,11 @@ class GameWonFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        arguments.let {
+            val score = it?.getInt("score")
+            textScore.text = "You Win. Score anda $score"
+        }
+
         buttonPlayAgain.setOnClickListener {
             it.findNavController().navigate(R.id.action_gameWonFragment_to_gameFragment)
         }

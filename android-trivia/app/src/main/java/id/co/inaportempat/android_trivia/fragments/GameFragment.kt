@@ -41,7 +41,9 @@ class GameFragment : Fragment() {
                 }
 
                 if (question.answers[answerIndex] == question.answers[0]) {
-                    view.findNavController().navigate(R.id.action_gameFragment_to_gameWonFragment)
+                    val bundle = Bundle()
+                    bundle.putInt("score", 10)
+                    view.findNavController().navigate(R.id.action_gameFragment_to_gameWonFragment, bundle)
                 } else {
                     view.findNavController().navigate(R.id.action_gameFragment_to_gameOverFragment)
                 }

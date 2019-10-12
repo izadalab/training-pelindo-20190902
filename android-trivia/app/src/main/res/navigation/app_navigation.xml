@@ -26,8 +26,8 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_gameFragment_to_gameOverFragment"
-            app:destination="@id/gameOverFragment"
-            app:popUpTo="@id/gameFragment"
+            app:destination="@+id/gameOverFragment"
+            app:popUpTo="@+id/gameFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -38,6 +38,10 @@
         <action
             android:id="@+id/action_gameWonFragment_to_gameFragment"
             app:destination="@id/gameFragment" />
+        <argument
+            android:name="score"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/gameOverFragment"
